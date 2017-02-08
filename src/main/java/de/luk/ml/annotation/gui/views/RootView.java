@@ -6,12 +6,12 @@ import de.luk.ml.annotation.gui.views.create.ConfigAnnotationCreationView;
 import de.luk.ml.annotation.gui.views.create.RecordAnnotationsView;
 import de.luk.ml.annotation.gui.views.main.MainView;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
@@ -28,6 +29,7 @@ import java.util.Objects;
 public class RootView extends ComponentController {
   public Scene scene;
   public Stage stage;
+  public File workingDirectory = new File(System.getProperty("user.dir"));
 
   private ViewController currentView;
 
@@ -51,6 +53,7 @@ public class RootView extends ComponentController {
     stage = primaryStage;
     stage.setScene(scene);
     stage.setTitle("Live Annotation");
+    this.askForWorkspace();
     setView(this.mainView);
     stage.show();
   }
@@ -105,5 +108,50 @@ public class RootView extends ComponentController {
     alert.getDialogPane().setExpandableContent(expContent);
 
     alert.showAndWait();
+  }
+
+  private void askForWorkspace() {
+    Dialog<File> dialog = new Dialog<>();
+    dialog.setTitle("Select workspace");
+    dialog.setHeaderText("Select workspace");
+    dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CLOSE);
+
+    GridPane grid = new GridPane();
+    grid.setHgap(10);
+    grid.setVgap(10);
+    grid.setPadding(new Insets(20, 150, 10, 10));
+
+    TextField filePath = new TextField();
+    filePath.setText(this.workingDirectory.getAbsolutePath());
+    filePath.setPromptText("Path to workspace directory");
+    GridPane.setHgrow(filePath, Priority.ALWAYS);
+
+    Button button = new Button("...");
+    button.setOnAction(action -> {
+      DirectoryChooser dc = new DirectoryChooser();
+      dc.setTitle("Choose workspace");
+      dc.setInitialDirectory(new File(System.getProperty("user.dir")));
+      File workingDirectory = dc.showDialog(this.stage);
+      if (!Objects.isNull(workingDirectory)) {
+        filePath.setText(workingDirectory.getAbsolutePath());
+      }
+    });
+    grid.add(new Label("Workspace:"), 0, 0);
+    grid.add(filePath, 1, 0);
+    grid.add(button, 2, 0);
+
+    dialog.getDialogPane().setContent(grid);
+    dialog.setResultConverter(dialogButton -> {
+      if (dialogButton == ButtonType.OK) {
+        return new File(filePath.getText());
+      }
+      return null;
+    });
+    Optional<File> result = dialog.showAndWait();
+    if (result.isPresent()) {
+      this.workingDirectory = result.get();
+    } else {
+      System.exit(0);
+    }
   }
 }
