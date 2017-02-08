@@ -16,7 +16,18 @@
 }
 .button {
     -fx-padding: 6px 12px;
+    -fx-font-size: 18px;
 }
 .main-button {
     -fx-padding: 24px 36px;
+}
+.start-button{
+    -fx-font-size: 24px;
+    -fx-padding: 12px 24px;
+}
+
+.menu-bar {
+    -fx-border-width: 0px 0px 2px 0px;
+    -fx-border-color: #BDBDBD;
+    -fx-border-style: solid;
 }

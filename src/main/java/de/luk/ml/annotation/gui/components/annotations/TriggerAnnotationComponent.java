@@ -123,7 +123,6 @@ public class TriggerAnnotationComponent extends ComponentController {
   }
 
   private void onKeyPressed(KeyEvent event) {
-    logger.debug("key presed: " + event.getCode());
     KeyCode pressedKey = event.getCode();
     if (pressedKey == KeyCode.ESCAPE) {
       if (this.isRunning) {

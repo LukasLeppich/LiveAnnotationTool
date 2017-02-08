@@ -24,4 +24,8 @@ public class RecordAnnotationsView extends ViewController {
     this.triggerAnnotationComponent.setOutputFile(outputFile);
   }
 
+  public String getTitle() {
+    return "Recording";
+  }
+
 }

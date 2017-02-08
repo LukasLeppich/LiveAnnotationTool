@@ -40,6 +40,10 @@ public class ConfigAnnotationCreationView extends ViewController {
         ));
   }
 
+  public String getTitle() {
+    return "Config recording";
+  }
+
   @FXML
   private void startAnnotation() {
     this.root.showRecordAnnotation(new File(this.outputFileComponent.filePath.get()));

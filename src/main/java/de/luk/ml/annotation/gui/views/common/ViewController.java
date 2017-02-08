@@ -15,10 +15,12 @@ import java.util.Arrays;
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
  */
-public class ViewController extends ComponentController {
+public abstract class ViewController extends ComponentController {
   private static Logger logger = LoggerFactory.getLogger(ViewController.class);
   public RootView root;
   private boolean loading = false;
+
+  abstract public String getTitle();
 
   @Inject
   protected Instance<LoadingView> loadingView;

@@ -6,10 +6,12 @@ import de.luk.ml.annotation.gui.views.create.ConfigAnnotationCreationView;
 import de.luk.ml.annotation.gui.views.create.RecordAnnotationsView;
 import de.luk.ml.annotation.gui.views.main.MainView;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -42,6 +44,9 @@ public class RootView extends ComponentController {
   @Inject
   private RecordAnnotationsView recordAnnotationsView;
 
+  @FXML
+  private HBox menu;
+
   @PostConstruct
   public void init() {
     scene = new Scene(this);
@@ -71,9 +76,30 @@ public class RootView extends ComponentController {
     if (Objects.nonNull(currentView)) {
       currentView.detach();
     }
+    this.updateMenu(view);
     currentView = view;
     currentView.setRootView(this);
     this.setCenter(currentView);
+  }
+
+  private void updateMenu(ViewController newView) {
+    if (Objects.isNull(currentView)) {
+      return;
+    }
+    for (int i = 0; i < this.menu.getChildren().size(); i++) {
+      if (((Button) this.menu.getChildren().get(i)).getText().equals(newView.getTitle())) {
+        this.menu.getChildren().remove(i, this.menu.getChildren().size());
+        return;
+      }
+    }
+    this.menu.getChildren().add(createMenuItem(currentView));
+  }
+
+  private Button createMenuItem(ViewController view) {
+    Button btn = new Button(view.getTitle());
+    btn.getStyleClass().add("menu-button");
+    btn.setOnAction(action -> this.setView(view));
+    return btn;
   }
 
 

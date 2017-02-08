@@ -24,4 +24,9 @@ public class MainView extends ViewController {
   public void createAnnotation(){
     this.root.showConfigAnnotationCreation();
   }
+
+  public String getTitle() {
+    return "Main";
+  }
+
 }
