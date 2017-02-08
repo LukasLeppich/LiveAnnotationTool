@@ -11,7 +11,7 @@
             <children>
                 <Button styleClass="main-button" mnemonicParsing="false" onAction="#createAnnotation" text="Create annotation">
                 </Button>
-                <Button styleClass="main-button" mnemonicParsing="false" onAction="#editAnnotation" text="Edit annotation">
+                <Button styleClass="main-button" mnemonicParsing="false" onAction="#reviewAnnotations" text="Review annotation">
                 </Button>
             </children>
             <padding>

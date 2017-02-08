@@ -1,4 +1,4 @@
-package de.luk.ml.annotation.gui.components.annotations;
+package de.luk.ml.annotation.gui.components.recording;
 
 import de.luk.ml.annotation.annotations.Annotation;
 import de.luk.ml.annotation.annotations.AnnotationList;

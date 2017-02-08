@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root minWidth="350" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <HBox alignment="CENTER" spacing="6.0" BorderPane.alignment="TOP_CENTER">
+            <children>
+                <Label text="Annotation file:"/>
+                <TextField fx:id="txfFilePath" HBox.hgrow="SOMETIMES"/>
+                <Button mnemonicParsing="false" onAction="#openFileChooser" text="...">
+                    <padding>
+                        <Insets bottom="6.0" left="12.0" right="12.0" top="6.0"/>
+                    </padding>
+                </Button>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0"/>
+            </BorderPane.margin>
+        </HBox>
+    </top>
+</fx:root>

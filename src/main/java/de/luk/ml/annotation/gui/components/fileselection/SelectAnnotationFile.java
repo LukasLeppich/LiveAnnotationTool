@@ -7,18 +7,18 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.comparator.LastModifiedFileComparator;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
- * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
+ * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/8/17.
  */
-public class SelectOutputFileComponent extends ComponentController {
+public class SelectAnnotationFile extends ComponentController {
 
   public SimpleStringProperty filePath = new SimpleStringProperty();
 
@@ -28,15 +28,11 @@ public class SelectOutputFileComponent extends ComponentController {
   @FXML
   private void openFileChooser() {
     FileChooser fc = new FileChooser();
-    fc.setTitle("Select annotation output file");
+    fc.setTitle("Select an annotation file");
+    fc.setInitialDirectory(this.view.root.workingDirectory);
     fc.getExtensionFilters().add(AnnotationFileFilter.getCSVFilter());
     fc.getExtensionFilters().add(AnnotationFileFilter.getAnyFilter());
-    if (!txfFilePath.getText().isEmpty()) {
-      fc.setInitialFileName(txfFilePath.getText());
-    } else {
-      fc.setInitialDirectory(this.view.root.workingDirectory);
-    }
-    File outputFile = fc.showSaveDialog(this.view.root.stage);
+    File outputFile = fc.showOpenDialog(this.view.root.stage);
     if (outputFile != null) {
       txfFilePath.setText(outputFile.getAbsolutePath());
     }
@@ -50,9 +46,16 @@ public class SelectOutputFileComponent extends ComponentController {
   @Override
   public void setView(ViewController view) {
     super.setView(view);
-    LocalDateTime currentTime = LocalDateTime.now();
-    String filename = currentTime.format(DateTimeFormatter.ofPattern("yyyy_MM_dd__kk_mm__'annotations.csv'"));
-    this.txfFilePath.setText(FilenameUtils.concat(this.view.root.workingDirectory.getAbsolutePath(), filename));
+    if (this.txfFilePath.getText().isEmpty()) {
+      File root = this.view.root.workingDirectory;
+      if (root.exists()) {
+        Arrays.stream(Optional.ofNullable(root.listFiles()).orElseGet(() -> new File[0]))
+            .filter(file -> file.getName().endsWith(".csv"))
+            .sorted(LastModifiedFileComparator.LASTMODIFIED_COMPARATOR.reversed())
+            .findFirst()
+            .ifPresent(file -> this.txfFilePath.setText(file.getAbsolutePath()));
+      }
+    }
   }
 
   @PreDestroy

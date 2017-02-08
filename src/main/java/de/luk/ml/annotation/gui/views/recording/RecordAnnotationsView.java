@@ -1,6 +1,6 @@
-package de.luk.ml.annotation.gui.views.create;
+package de.luk.ml.annotation.gui.views.recording;
 
-import de.luk.ml.annotation.gui.components.annotations.TriggerAnnotationComponent;
+import de.luk.ml.annotation.gui.components.recording.TriggerAnnotationComponent;
 import de.luk.ml.annotation.gui.views.common.ViewController;
 
 import javax.annotation.PostConstruct;

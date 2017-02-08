@@ -2,9 +2,12 @@ package de.luk.ml.annotation.gui.views;
 
 import de.luk.ml.annotation.gui.components.common.ComponentController;
 import de.luk.ml.annotation.gui.views.common.ViewController;
-import de.luk.ml.annotation.gui.views.create.ConfigAnnotationCreationView;
-import de.luk.ml.annotation.gui.views.create.RecordAnnotationsView;
+import de.luk.ml.annotation.gui.views.config.ConfigAnnotationCreationView;
 import de.luk.ml.annotation.gui.views.main.MainView;
+import de.luk.ml.annotation.gui.views.recording.RecordAnnotationsView;
+import de.luk.ml.annotation.gui.views.review.ReviewAnnotationView;
+import de.luk.ml.annotation.utils.CallableWithException;
+import de.luk.ml.annotation.utils.RunnableWithException;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -15,6 +18,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -29,6 +34,7 @@ import java.util.Optional;
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
  */
 public class RootView extends ComponentController {
+  private static Logger logger = LoggerFactory.getLogger(RootView.class);
   public Scene scene;
   public Stage stage;
   public File workingDirectory = new File(System.getProperty("user.dir"));
@@ -43,6 +49,9 @@ public class RootView extends ComponentController {
 
   @Inject
   private RecordAnnotationsView recordAnnotationsView;
+
+  @Inject
+  private ReviewAnnotationView reviewAnnotationView;
 
   @FXML
   private HBox menu;
@@ -67,6 +76,10 @@ public class RootView extends ComponentController {
     this.setView(this.configAnnotationCreationView);
   }
 
+  public void showReviewAnnotationView() {
+    this.setView(this.reviewAnnotationView);
+  }
+
   public void showRecordAnnotation(File outputFile) {
     this.recordAnnotationsView.setOutputFile(outputFile);
     this.setView(this.recordAnnotationsView);
@@ -78,6 +91,7 @@ public class RootView extends ComponentController {
     }
     this.updateMenu(view);
     currentView = view;
+    currentView.attach();
     currentView.setRootView(this);
     this.setCenter(currentView);
   }
@@ -102,6 +116,33 @@ public class RootView extends ComponentController {
     return btn;
   }
 
+  public void showError(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+  public boolean executeAndShowException(RunnableWithException runnable, String errorMessage) {
+    try {
+      runnable.run();
+      return true;
+    } catch (Throwable e) {
+      logger.error(errorMessage, e);
+      showException(errorMessage, e);
+    }
+    return false;
+  }
+
+  public <T> Optional<T> executeAndShowException(CallableWithException<T> runnable, String errorMessage) {
+    try {
+      return Optional.ofNullable(runnable.call());
+    } catch (Throwable e) {
+      logger.error(errorMessage, e);
+      showException(errorMessage, e);
+    }
+    return Optional.empty();
+  }
 
   public void showException(String message, Throwable e) {
     // From: http://code.makery.ch/blog/javafx-dialogs-official/

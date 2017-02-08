@@ -16,8 +16,8 @@ public class MainView extends ViewController {
   }
 
   @FXML
-  public void editAnnotation(){
-
+  public void reviewAnnotations(){
+    this.root.showReviewAnnotationView();
   }
 
   @FXML

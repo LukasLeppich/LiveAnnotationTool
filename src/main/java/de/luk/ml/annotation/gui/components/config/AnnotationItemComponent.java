@@ -1,4 +1,4 @@
-package de.luk.ml.annotation.gui.components.annotations.creation;
+package de.luk.ml.annotation.gui.components.config;
 
 import de.luk.ml.annotation.annotations.Annotation;
 import de.luk.ml.annotation.gui.components.common.ComponentController;

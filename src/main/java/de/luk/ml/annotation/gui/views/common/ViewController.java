@@ -41,7 +41,9 @@ public abstract class ViewController extends ComponentController {
   }
 
   public void detach() {
+  }
 
+  public void attach() {
   }
 
   public void setLoading(boolean loading) {

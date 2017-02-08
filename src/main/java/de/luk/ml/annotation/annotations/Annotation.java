@@ -1,6 +1,7 @@
 package de.luk.ml.annotation.annotations;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,6 +23,11 @@ public class Annotation {
   @XmlTransient
   public SimpleIntegerProperty index;
 
+  @XmlTransient
+  public SimpleLongProperty start;
+  @XmlTransient
+  public SimpleLongProperty end;
+
   public Annotation() {
     this("");
   }
@@ -29,6 +35,8 @@ public class Annotation {
   public Annotation(String name) {
     this.name = new SimpleStringProperty(name);
     this.index = new SimpleIntegerProperty(0);
+    this.start = new SimpleLongProperty(0);
+    this.end = new SimpleLongProperty(0);
   }
 
   public void remove() {
@@ -78,4 +86,29 @@ public class Annotation {
     return this;
   }
 
+  public long getStart() {
+    return start.get();
+  }
+
+  public SimpleLongProperty startProperty() {
+    return start;
+  }
+
+  public Annotation setStart(long start) {
+    this.start.set(start);
+    return this;
+  }
+
+  public long getEnd() {
+    return end.get();
+  }
+
+  public SimpleLongProperty endProperty() {
+    return end;
+  }
+
+  public Annotation setEnd(long end) {
+    this.end.set(end);
+    return this;
+  }
 }

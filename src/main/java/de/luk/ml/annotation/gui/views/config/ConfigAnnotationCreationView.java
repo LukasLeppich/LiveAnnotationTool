@@ -1,7 +1,7 @@
-package de.luk.ml.annotation.gui.views.create;
+package de.luk.ml.annotation.gui.views.config;
 
 import de.luk.ml.annotation.annotations.AnnotationList;
-import de.luk.ml.annotation.gui.components.annotations.creation.AnnotationListComponent;
+import de.luk.ml.annotation.gui.components.config.AnnotationListComponent;
 import de.luk.ml.annotation.gui.components.fileselection.SelectOutputFileComponent;
 import de.luk.ml.annotation.gui.views.common.ViewController;
 import javafx.beans.binding.Bindings;

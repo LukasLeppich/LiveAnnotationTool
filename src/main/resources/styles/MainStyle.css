@@ -11,17 +11,21 @@
 .label {
     -fx-font-size: 18px;
 }
+
 .help-text {
     -fx-font-size: 18px;
 }
+
 .button {
     -fx-padding: 6px 12px;
     -fx-font-size: 18px;
 }
+
 .main-button {
     -fx-padding: 24px 36px;
 }
-.start-button{
+
+.start-button {
     -fx-font-size: 24px;
     -fx-padding: 12px 24px;
 }
@@ -30,4 +34,11 @@
     -fx-border-width: 0px 0px 2px 0px;
     -fx-border-color: #BDBDBD;
     -fx-border-style: solid;
+}
+
+/* From http://stackoverflow.com/a/22535106 */
+.copyable-label, .copyable-label:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0px;
+    -fx-font-size: 18px;
 }
