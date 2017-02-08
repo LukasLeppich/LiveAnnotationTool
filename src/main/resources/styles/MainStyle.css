@@ -1,4 +1,22 @@
-.annotation-item-number {
+.annotation-header {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
+}
+
+.active-label {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-font-size: 18px;
+}
+.help-text {
+    -fx-font-size: 18px;
+}
+.button {
+    -fx-padding: 6px 12px;
+}
+.main-button {
+    -fx-padding: 24px 36px;
 }

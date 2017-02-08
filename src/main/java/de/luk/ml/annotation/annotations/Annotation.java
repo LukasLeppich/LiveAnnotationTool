@@ -1,6 +1,5 @@
 package de.luk.ml.annotation.annotations;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -8,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -21,10 +21,6 @@ public class Annotation {
   public SimpleStringProperty name;
   @XmlTransient
   public SimpleIntegerProperty index;
-  @XmlTransient
-  public SimpleBooleanProperty selected;
-  @XmlTransient
-  public SimpleBooleanProperty active;
 
   public Annotation() {
     this("");
@@ -33,8 +29,6 @@ public class Annotation {
   public Annotation(String name) {
     this.name = new SimpleStringProperty(name);
     this.index = new SimpleIntegerProperty(0);
-    this.selected = new SimpleBooleanProperty(false);
-    this.active = new SimpleBooleanProperty(false);
   }
 
   public void remove() {
@@ -45,6 +39,25 @@ public class Annotation {
   public Annotation onRemove(Consumer<Annotation> callback) {
     this.removeCallbacks.add(callback);
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return Integer.toString(this.index.get() + 1) + ": " + this.getName();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Annotation)) return false;
+    Annotation that = (Annotation) o;
+    return Objects.equals(getName(), that.getName()) &&
+        Objects.equals(getIndex(), that.getIndex());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getName(), getIndex());
   }
 
   public String getName() {
@@ -65,21 +78,4 @@ public class Annotation {
     return this;
   }
 
-  public boolean isSelected() {
-    return selected.get();
-  }
-
-  public Annotation setSelected(boolean selected) {
-    this.selected.set(selected);
-    return this;
-  }
-
-  public boolean isActive() {
-    return active.get();
-  }
-
-  public Annotation setActive(boolean active) {
-    this.active.set(active);
-    return this;
-  }
 }

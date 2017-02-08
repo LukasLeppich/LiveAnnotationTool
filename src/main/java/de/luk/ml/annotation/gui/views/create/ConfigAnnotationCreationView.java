@@ -1,17 +1,24 @@
 package de.luk.ml.annotation.gui.views.create;
 
+import de.luk.ml.annotation.annotations.AnnotationList;
 import de.luk.ml.annotation.gui.components.annotations.creation.AnnotationListComponent;
 import de.luk.ml.annotation.gui.components.fileselection.SelectOutputFileComponent;
 import de.luk.ml.annotation.gui.views.common.ViewController;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.io.File;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
  */
 public class ConfigAnnotationCreationView extends ViewController {
+
+  @FXML
+  private Button btnStartAnnotation;
 
   @Inject
   private AnnotationListComponent annotationListComponent;
@@ -20,19 +27,22 @@ public class ConfigAnnotationCreationView extends ViewController {
   private SelectOutputFileComponent outputFileComponent;
 
   @Inject
-  private CreateAnnotationsView createAnnotationsView;
+  private AnnotationList annotationList;
 
   @PostConstruct
   public void init() {
-    this.annotationListComponent.setView(this);
-    this.outputFileComponent.setView(this);
-    this.setLeft(this.annotationListComponent);
+    this.setCenter(this.annotationListComponent);
     this.setTop(this.outputFileComponent);
+    this.btnStartAnnotation.disableProperty().bind(
+        Bindings.or(
+            this.outputFileComponent.filePath.isEmpty(),
+            this.annotationList.isEmpty
+        ));
   }
 
   @FXML
   private void startAnnotation() {
-    this.root.setView(this.createAnnotationsView);
+    this.root.showRecordAnnotation(new File(this.outputFileComponent.filePath.get()));
   }
 
 }
