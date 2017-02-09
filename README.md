@@ -1,5 +1,5 @@
 #Live Annotation Tool
-<sub><sub>*(For the machine learning course at the University of Würzburg)*</sub></sub>
+<sub>*(For the machine learning course at the University of Würzburg)*</sub>
 
 **This tool is still under development, please make copies of your annotation files before use!**
 
