@@ -120,6 +120,7 @@ public class TriggerAnnotationComponent extends ComponentController {
     this.lblActiveAnnotation.setText("Recording stopped.");
     this.view.root.scene.removeEventFilter(MouseEvent.MOUSE_PRESSED, this::onMouseDown);
     this.view.root.scene.removeEventFilter(MouseEvent.MOUSE_RELEASED, this::onMouseUp);
+    this.view.root.showReviewAnnotationView(outputFile);
   }
 
   private void onKeyPressed(KeyEvent event) {

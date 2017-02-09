@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/8/17.
@@ -45,7 +46,7 @@ public class AnnotationRecorder {
     }
     double started = (currentActiveStart - startTime) / 1000.0;
     double ended = (System.currentTimeMillis() - startTime) / 1000.0;
-    output.write(String.format("\n%.3f;%.3f;\"" + annotation.getName() + "\"", started, ended));
+    output.write(String.format(Locale.US, "\n%.3f;%.3f;\"" + annotation.getName() + "\"", started, ended));
     output.flush();
     this.currentActiveStart = 0;
     this.currentActive = null;

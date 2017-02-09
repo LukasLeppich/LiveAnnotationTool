@@ -35,6 +35,14 @@
     -fx-border-color: #BDBDBD;
     -fx-border-style: solid;
 }
+.status-bar {
+    -fx-border-width: 2px 0px 0px 0px;
+    -fx-border-color: #BDBDBD;
+    -fx-border-style: solid;
+}
+.status-bar-label {
+    -fx-font-size: 14px;
+}
 
 /* From http://stackoverflow.com/a/22535106 */
 .copyable-label, .copyable-label:focused {

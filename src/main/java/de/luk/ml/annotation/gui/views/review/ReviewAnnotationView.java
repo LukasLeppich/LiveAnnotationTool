@@ -47,6 +47,11 @@ public class ReviewAnnotationView extends ViewController {
     setTop();
   }
 
+  public void setFileAndLoad(File file) {
+    this.selectAnnotationFile.setFilePath(file);
+    this.loadFile(null);
+  }
+
   private void setTop() {
     HBox top = new HBox();
     top.setSpacing(3);
@@ -61,11 +66,19 @@ public class ReviewAnnotationView extends ViewController {
     this.setTop(top);
   }
 
+  @Override
+  public void attach() {
+    super.attach();
+    if (Objects.nonNull(this.annotationFile)) {
+      this.loadFile(null);
+    }
+  }
+
   private void loadFile(ActionEvent action) {
     if (Objects.nonNull(this.annotationFile)) {
       this.annotationFile.removeChangeListener(this::onChange);
     }
-    File inputFile = new File(this.selectAnnotationFile.filePath.get());
+    File inputFile = new File(this.selectAnnotationFile.getFilePath());
     if (!inputFile.exists()) {
       this.root.showError("Annotation file not found!");
       return;

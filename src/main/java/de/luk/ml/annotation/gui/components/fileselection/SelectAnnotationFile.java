@@ -43,6 +43,14 @@ public class SelectAnnotationFile extends ComponentController {
     this.filePath.bind(txfFilePath.textProperty());
   }
 
+  public void setFilePath(File file){
+    this.txfFilePath.setText(file.getAbsolutePath());
+  }
+
+  public String getFilePath(){
+    return this.txfFilePath.getText();
+  }
+
   @Override
   public void setView(ViewController view) {
     super.setView(view);

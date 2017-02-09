@@ -6,7 +6,7 @@
 
     <groupId>de.luk.ml.annotation</groupId>
     <artifactId>LiveAnnotation</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <properties>
         <main.class>de.luk.ml.annotation.LiveAnnotation</main.class>
@@ -91,6 +91,7 @@
                     <archive>
                         <manifest>
                             <mainClass>${main.class}</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
 

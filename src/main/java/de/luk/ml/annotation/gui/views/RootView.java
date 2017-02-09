@@ -56,19 +56,31 @@ public class RootView extends ComponentController {
   @FXML
   private HBox menu;
 
+  @FXML
+  private Label lblVersion;
+
   @PostConstruct
   public void init() {
     scene = new Scene(this);
     scene.getStylesheets().clear();
     scene.getStylesheets().add(RootView.class.getResource("/styles/MainStyle.css").toExternalForm());
+    String version = getClass().getPackage().getImplementationVersion();
+    if(Objects.nonNull(version) && !version.isEmpty()){
+      this.lblVersion.setText(version);
+    } else {
+      this.lblVersion.setText("SNAPSHOT");
+    }
   }
 
   public void start(final Stage primaryStage, final Application.Parameters parameters) throws IOException {
     stage = primaryStage;
     stage.setScene(scene);
     stage.setTitle("Live Annotation");
+    stage.setResizable(true);
     this.askForWorkspace();
     setView(this.mainView);
+    stage.setWidth(600);
+    stage.setHeight(500);
     stage.show();
   }
 
@@ -78,6 +90,10 @@ public class RootView extends ComponentController {
 
   public void showReviewAnnotationView() {
     this.setView(this.reviewAnnotationView);
+  }
+  public void showReviewAnnotationView(File inputFile) {
+    this.setView(this.reviewAnnotationView);
+    this.reviewAnnotationView.setFileAndLoad(inputFile);
   }
 
   public void showRecordAnnotation(File outputFile) {

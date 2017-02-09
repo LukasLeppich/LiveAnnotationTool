@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class AnnotationFileLoader {
   private static Logger logger = LoggerFactory.getLogger(AnnotationFileLoader.class);
-  private Pattern doublePattern = Pattern.compile("^\\d*(\\.?\\d+)$");
+  private Pattern doublePattern = Pattern.compile("^\\d*((\\.|,)?\\d+)$");
 
   public AnnotationFile loadAnnotationFile(File inputFile) throws Exception {
     List<String> lines = FileUtils.readLines(inputFile, Charsets.UTF_8);
@@ -80,7 +80,7 @@ public class AnnotationFileLoader {
   }
 
   private Long toLong(String time) {
-    double doubleValue = Double.parseDouble(time);
+    double doubleValue = Double.parseDouble(time.replaceAll(",", "."));
     return Math.round(doubleValue * 1000.0);
   }
 
