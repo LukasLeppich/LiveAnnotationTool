@@ -4,6 +4,7 @@ import de.luk.ml.annotation.annotations.AnnotationFile;
 import de.luk.ml.annotation.annotations.ElanEAFGenerator;
 import de.luk.ml.annotation.gui.components.common.ComponentController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
@@ -28,6 +29,9 @@ public class CreateEAF extends ComponentController {
   @FXML
   private TextField txfOutputFile;
 
+  @FXML
+  private Label lblOutput;
+
 
   @PostConstruct
   public void init() {
@@ -35,12 +39,16 @@ public class CreateEAF extends ComponentController {
 
   @FXML
   public void createEAFFile() {
+    lblOutput.setText("");
     ElanEAFGenerator generator = new ElanEAFGenerator(this.annotationFile.getAnnotations());
     generator.setMediaFile(new File(this.txfMediaFile.getText()));
     try {
-      generator.writeToFile(new File(this.txfOutputFile.getText()));
+      File outputFile = new File(this.txfOutputFile.getText());
+      generator.writeToFile(outputFile);
+      lblOutput.setText("Written " + outputFile.length() + " bytes");
     } catch (Exception e) {
       e.printStackTrace();
+      lblOutput.setText(e.getClass().getSimpleName());
     }
   }
 

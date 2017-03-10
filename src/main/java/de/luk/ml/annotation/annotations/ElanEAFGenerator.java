@@ -1,5 +1,8 @@
 package de.luk.ml.annotation.annotations;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.File;
@@ -15,8 +18,10 @@ import java.util.Optional;
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 3/9/17.
  */
 public class ElanEAFGenerator {
+  private static final Logger logger = LoggerFactory.getLogger(ElanEAFGenerator.class);
+
   private List<Annotation> annotations;
-  private Optional<File> mediaFile;
+  private Optional<File> mediaFile = Optional.empty();
 
   public ElanEAFGenerator(List<Annotation> annotations) {
     this.annotations = annotations;
@@ -27,62 +32,62 @@ public class ElanEAFGenerator {
     return this;
   }
 
-
   public void writeToFile(File output) throws Exception {
-
     XMLOutputFactory factory = XMLOutputFactory.newFactory();
-    XMLStreamWriter writer = factory.createXMLStreamWriter(
-        new OutputStreamWriter(new FileOutputStream(output), StandardCharsets.UTF_8));
+    try(OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(output), StandardCharsets.UTF_8) ) {
+      XMLStreamWriter writer = factory.createXMLStreamWriter(outputStream);
 
-    writer.writeStartDocument("UTF-8", "1.0");
+      writer.writeStartDocument("UTF-8", "1.0");
 
-    writer.writeStartElement("ANNOTATION_DOCUMENT");
+      writer.writeStartElement("ANNOTATION_DOCUMENT");
 
-    writer.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-    writer.writeAttribute("xsi:noNamespaceSchemaLocation", "http://www.mpi.nl/tools/elan/EAFv2.8.xsd");
-    writer.writeAttribute("DATE", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    writer.writeAttribute("FORMAT", "2.8");
-    writer.writeAttribute("VERSION", "2.8");
+      writer.writeAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+      writer.writeAttribute("xsi:noNamespaceSchemaLocation", "http://www.mpi.nl/tools/elan/EAFv2.8.xsd");
+      writer.writeAttribute("DATE", ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+      writer.writeAttribute("FORMAT", "2.8");
+      writer.writeAttribute("VERSION", "2.8");
 
-    writeHeader(writer);
-    writeTimeOrder(writer);
-    writeTier(writer);
+      writeHeader(writer);
+      writeTimeOrder(writer);
+      writeTier(writer);
 
-    writer.writeEmptyElement("LINGUISTIC_TYPE");
-    writer.writeAttribute("GRAPHIC_REFERENCES", "false");
-    writer.writeAttribute("LINGUISTIC_TYPE_ID", "default-lt");
-    writer.writeAttribute("TIME_ALIGNABLE", "true");
+      writer.writeEmptyElement("LINGUISTIC_TYPE");
+      writer.writeAttribute("GRAPHIC_REFERENCES", "false");
+      writer.writeAttribute("LINGUISTIC_TYPE_ID", "default-lt");
+      writer.writeAttribute("TIME_ALIGNABLE", "true");
 
-    writer.writeEmptyElement("LINGUISTIC_TYPE");
-    writer.writeAttribute("GRAPHIC_REFERENCES", "false");
-    writer.writeAttribute("LINGUISTIC_TYPE_ID", "default");
-    writer.writeAttribute("TIME_ALIGNABLE", "true");
+      writer.writeEmptyElement("LINGUISTIC_TYPE");
+      writer.writeAttribute("GRAPHIC_REFERENCES", "false");
+      writer.writeAttribute("LINGUISTIC_TYPE_ID", "default");
+      writer.writeAttribute("TIME_ALIGNABLE", "true");
 
-    writer.writeEmptyElement("LOCALE");
-    writer.writeAttribute("COUNTRY_CODE", "EN");
-    writer.writeAttribute("LANGUAGE_CODE", "us");
-    writer.writeAttribute("TIME_ALIGNABLE", "true");
+      writer.writeEmptyElement("LOCALE");
+      writer.writeAttribute("COUNTRY_CODE", "EN");
+      writer.writeAttribute("LANGUAGE_CODE", "us");
+      writer.writeAttribute("TIME_ALIGNABLE", "true");
 
-    writer.writeEmptyElement("CONSTRAINT");
-    writer.writeAttribute("DESCRIPTION", "Time subdivision of parent annotation's time interval, no time gaps allowed within this interval");
-    writer.writeAttribute("STEREOTYPE", "Time_Subdivision");
+      writer.writeEmptyElement("CONSTRAINT");
+      writer.writeAttribute("DESCRIPTION", "Time subdivision of parent annotation's time interval, no time gaps allowed within this interval");
+      writer.writeAttribute("STEREOTYPE", "Time_Subdivision");
 
-    writer.writeEmptyElement("CONSTRAINT");
-    writer.writeAttribute("DESCRIPTION", "Symbolic subdivision of a parent annotation. Annotations refering to the same parent are ordered");
-    writer.writeAttribute("STEREOTYPE", "Symbolic_Subdivision");
+      writer.writeEmptyElement("CONSTRAINT");
+      writer.writeAttribute("DESCRIPTION", "Symbolic subdivision of a parent annotation. Annotations refering to the same parent are ordered");
+      writer.writeAttribute("STEREOTYPE", "Symbolic_Subdivision");
 
-    writer.writeEmptyElement("CONSTRAINT");
-    writer.writeAttribute("DESCRIPTION", "1-1 association with a parent annotation");
-    writer.writeAttribute("STEREOTYPE", "Symbolic_Association");
+      writer.writeEmptyElement("CONSTRAINT");
+      writer.writeAttribute("DESCRIPTION", "1-1 association with a parent annotation");
+      writer.writeAttribute("STEREOTYPE", "Symbolic_Association");
 
-    writer.writeEmptyElement("CONSTRAINT");
-    writer.writeAttribute("DESCRIPTION", "Time alignable annotations within the parent annotation's time interval, gaps are allowed");
-    writer.writeAttribute("STEREOTYPE", "Included_In");
+      writer.writeEmptyElement("CONSTRAINT");
+      writer.writeAttribute("DESCRIPTION", "Time alignable annotations within the parent annotation's time interval, gaps are allowed");
+      writer.writeAttribute("STEREOTYPE", "Included_In");
 
-    writer.writeEndElement();
-    writer.writeEndDocument();
-    writer.flush();
-    writer.close();
+      writer.writeEndElement();
+      writer.writeEndDocument();
+
+      writer.flush();
+      writer.close();
+    }
   }
 
   private void writeTier(XMLStreamWriter writer) throws Exception {

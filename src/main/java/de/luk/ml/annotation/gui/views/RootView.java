@@ -198,15 +198,17 @@ public class RootView extends ComponentController {
     dialog.setTitle("Select workspace");
     dialog.setHeaderText("Select workspace");
     dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CLOSE);
+    dialog.setResizable(true);
 
     GridPane grid = new GridPane();
     grid.setHgap(10);
     grid.setVgap(10);
-    grid.setPadding(new Insets(20, 150, 10, 10));
+    grid.setPadding(new Insets(20, 15, 15, 10));
 
     TextField filePath = new TextField();
     filePath.setText(this.workingDirectory.getAbsolutePath());
     filePath.setPromptText("Path to workspace directory");
+    filePath.setPrefWidth(400);
     GridPane.setHgrow(filePath, Priority.ALWAYS);
 
     Button button = new Button("...");
