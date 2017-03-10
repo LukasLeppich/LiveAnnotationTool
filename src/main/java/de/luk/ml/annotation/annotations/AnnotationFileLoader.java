@@ -38,8 +38,8 @@ public class AnnotationFileLoader {
             annotation.getEnd() / 1000.0))
         .collect(Collectors.toList());
     lines.add(0, "\"#starttime\";\"#endtime\";\"all_tiers\"");
-    FileUtils.writeLines(file.inputFile, Charsets.UTF_8.name(), lines, "\n");
-    FileUtils.writeStringToFile(new File(file.inputFile.getParentFile(), file.inputFile.getName() + ".started"), Long.toString(file.getStart()), "utf-8", false);
+    FileUtils.writeLines(file.getFile(), Charsets.UTF_8.name(), lines, "\n");
+    FileUtils.writeStringToFile(new File(file.getFile().getParentFile(), file.getFile().getName() + ".started"), Long.toString(file.getStart()), "utf-8", false);
   }
 
   private long loadStarted(File inputFile) throws Exception {

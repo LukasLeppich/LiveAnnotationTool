@@ -36,4 +36,8 @@ public abstract class ComponentController extends BorderPane {
     }
   }
 
+  public void detach(){
+
+  }
+
 }

@@ -6,6 +6,7 @@ import de.luk.ml.annotation.gui.components.common.ComponentController;
 import de.luk.ml.annotation.gui.views.common.ViewController;
 import de.luk.ml.annotation.recorder.AnnotationRecorder;
 import javafx.beans.binding.Bindings;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
@@ -37,6 +39,8 @@ public class TriggerAnnotationComponent extends ComponentController {
 
   private Annotation selectedAnnoation;
   private File outputFile;
+  private String pressedKey;
+
 
   @FXML
   private ListView<Annotation> lstAnnotations;
@@ -85,9 +89,14 @@ public class TriggerAnnotationComponent extends ComponentController {
   @Override
   public void setView(ViewController view) {
     super.setView(view);
-    this.view.root.scene.addEventFilter(MouseEvent.MOUSE_PRESSED, this::onMouseDown);
-    this.view.root.scene.addEventFilter(MouseEvent.MOUSE_RELEASED, this::onMouseUp);
     this.view.root.scene.addEventFilter(KeyEvent.KEY_PRESSED, this::onKeyPressed);
+    this.view.root.scene.addEventFilter(KeyEvent.KEY_RELEASED, this::onKeyReleased);
+  }
+
+  @Override
+  public void detach() {
+    this.view.root.scene.removeEventFilter(KeyEvent.KEY_PRESSED, this::onKeyPressed);
+    this.view.root.scene.removeEventFilter(KeyEvent.KEY_RELEASED, this::onKeyReleased);
   }
 
   public void start() {
@@ -103,6 +112,8 @@ public class TriggerAnnotationComponent extends ComponentController {
     this.selectedAnnoation = this.annotationList.observable.get(0);
     this.crcIsActive.setFill(INACTIVE);
     this.setLabelTextToCurrentAnnotation();
+    this.view.root.scene.addEventFilter(MouseEvent.MOUSE_PRESSED, this::onMouseDown);
+    this.view.root.scene.addEventFilter(MouseEvent.MOUSE_RELEASED, this::onMouseUp);
   }
 
   public void stop() {
@@ -118,9 +129,9 @@ public class TriggerAnnotationComponent extends ComponentController {
     this.isRunning = false;
     this.crcIsActive.setFill(NOT_STARTED);
     this.lblActiveAnnotation.setText("Recording stopped.");
+    this.view.root.showReviewAnnotationView(outputFile);
     this.view.root.scene.removeEventFilter(MouseEvent.MOUSE_PRESSED, this::onMouseDown);
     this.view.root.scene.removeEventFilter(MouseEvent.MOUSE_RELEASED, this::onMouseUp);
-    this.view.root.showReviewAnnotationView(outputFile);
   }
 
   private void onKeyPressed(KeyEvent event) {
@@ -140,6 +151,19 @@ public class TriggerAnnotationComponent extends ComponentController {
       }
     } else if (pressedKey == KeyCode.ENTER) {
       this.start();
+    } else {
+      if (Objects.isNull(this.pressedKey) || this.pressedKey.isEmpty()) {
+        this.pressedKey = event.getCode().getName();
+        startAnnotation(event);
+      } else if (!this.pressedKey.equals(event.getCode().getName())) {
+        this.pressedKey = event.getCode().getName();
+      }
+    }
+  }
+
+  private void onKeyReleased(KeyEvent event) {
+    if (this.isRunning && Objects.nonNull(pressedKey) && !pressedKey.isEmpty() && pressedKey.equals(event.getCode().getName())) {
+      stopAnnotation(event);
     }
   }
 
@@ -148,21 +172,29 @@ public class TriggerAnnotationComponent extends ComponentController {
   }
 
   private void onMouseDown(MouseEvent event) {
+    startAnnotation(event);
+  }
+
+  private void onMouseUp(MouseEvent event) {
+    stopAnnotation(event);
+  }
+
+  private void startAnnotation(Event event) {
     if (!this.isRunning) {
       return;
     }
     event.consume();
     this.recorder.startAnnotation(this.selectedAnnoation);
     this.crcIsActive.setFill(ACTIVE);
-
   }
 
-  private void onMouseUp(MouseEvent event) {
+  private void stopAnnotation(Event event) {
     if (!this.isRunning) {
       return;
     }
     event.consume();
     try {
+      this.pressedKey = null;
       this.recorder.stopAnnotation(this.selectedAnnoation);
     } catch (Throwable e) {
       this.stop();
@@ -172,4 +204,5 @@ public class TriggerAnnotationComponent extends ComponentController {
     }
     this.crcIsActive.setFill(INACTIVE);
   }
+
 }

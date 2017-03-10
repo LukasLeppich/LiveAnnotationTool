@@ -29,7 +29,14 @@ public class SelectAnnotationFile extends ComponentController {
   private void openFileChooser() {
     FileChooser fc = new FileChooser();
     fc.setTitle("Select an annotation file");
-    fc.setInitialDirectory(this.view.root.workingDirectory);
+    File initializeDirectory = this.view.root.workingDirectory;
+    if (!this.txfFilePath.getText().isEmpty()) {
+      File selectedFile = new File(this.txfFilePath.getText());
+      if (selectedFile.exists() || selectedFile.getParentFile().exists()) {
+        initializeDirectory = selectedFile.getParentFile();
+      }
+    }
+    fc.setInitialDirectory(initializeDirectory);
     fc.getExtensionFilters().add(AnnotationFileFilter.getCSVFilter());
     fc.getExtensionFilters().add(AnnotationFileFilter.getAnyFilter());
     File outputFile = fc.showOpenDialog(this.view.root.stage);
@@ -43,11 +50,11 @@ public class SelectAnnotationFile extends ComponentController {
     this.filePath.bind(txfFilePath.textProperty());
   }
 
-  public void setFilePath(File file){
+  public void setFilePath(File file) {
     this.txfFilePath.setText(file.getAbsolutePath());
   }
 
-  public String getFilePath(){
+  public String getFilePath() {
     return this.txfFilePath.getText();
   }
 

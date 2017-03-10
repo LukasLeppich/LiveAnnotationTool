@@ -8,4 +8,5 @@ public class LoadingView extends ViewController {
   public String getTitle() {
     return "Loading";
   }
+
 }

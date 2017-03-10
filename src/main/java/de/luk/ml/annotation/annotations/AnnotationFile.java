@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/8/17.
  */
 public class AnnotationFile {
-  File inputFile;
+  private File inputFile;
   private AnnotationFileLoader loader;
   private List<Annotation> annotations;
   private long start;
@@ -21,6 +21,10 @@ public class AnnotationFile {
     this.inputFile = inputFile;
     this.annotations = annotations;
     this.start = start;
+  }
+
+  public File getFile() {
+    return this.inputFile;
   }
 
   public void recalculateTimes(long recordingStart) throws Exception {
