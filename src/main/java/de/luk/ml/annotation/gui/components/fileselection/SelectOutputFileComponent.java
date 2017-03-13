@@ -48,7 +48,14 @@ public class SelectOutputFileComponent extends ComponentController {
   private void refreshName(){
     LocalDateTime currentTime = LocalDateTime.now();
     String filename = currentTime.format(DateTimeFormatter.ofPattern("'entityRecording'-yyyy-MM-dd-HH-mm-ss'.csv'"));
-    this.txfFilePath.setText(FilenameUtils.concat(this.view.root.workingDirectory.getAbsolutePath(), filename));
+    File newParent = this.view.root.workingDirectory;
+    if(!this.txfFilePath.getText().trim().isEmpty()){
+      File currentFile = new File(this.txfFilePath.getText());
+      if(currentFile.exists() || currentFile.getParentFile().exists()){
+        newParent = currentFile.getParentFile();
+      }
+    }
+    this.txfFilePath.setText(FilenameUtils.concat(newParent.getAbsolutePath(), filename));
   }
 
   @PostConstruct

@@ -33,7 +33,7 @@ public class TriggerAnnotationComponent extends ComponentController {
   private static Logger logger = LoggerFactory.getLogger(TriggerAnnotationComponent.class);
   private boolean isRunning;
 
-  private static Paint NOT_STARTED = Color.web("#E0E0E0");
+  private static Paint NOT_STARTED = Color.web("#505050");
   private static Paint ACTIVE = Color.web("#76FF03");
   private static Paint INACTIVE = Color.web("#F1F8E9");
 
@@ -79,7 +79,8 @@ public class TriggerAnnotationComponent extends ComponentController {
   private void setHelpText() {
     this.txtHelp.setText("ENTER: Start recording\n" +
         "ESC: Stop recording\n" +
-        "1-0: Select annotation (0 is 10)");
+        "1-0: Select annotation (0 is 10)\n" +
+        "Press and hold any key to specify an annotated period of time.");
   }
 
   public void setOutputFile(File output) {
@@ -168,7 +169,7 @@ public class TriggerAnnotationComponent extends ComponentController {
   }
 
   private void setLabelTextToCurrentAnnotation() {
-    this.lblActiveAnnotation.setText("Current annotation " + this.selectedAnnoation.getName());
+    this.lblActiveAnnotation.setText("Current annotation: \"" + this.selectedAnnoation.getName() + "\"");
   }
 
   private void onMouseDown(MouseEvent event) {

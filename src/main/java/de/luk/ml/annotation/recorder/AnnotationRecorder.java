@@ -31,6 +31,7 @@ public class AnnotationRecorder {
   }
 
   public void stopRecording() throws IOException {
+    this.output.flush();
     this.output.close();
   }
 

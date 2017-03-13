@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
@@ -56,12 +57,15 @@ public class CreateEAF extends ComponentController {
   public void selectMediaFile() {
     FileChooser fc = new FileChooser();
     if(!this.txfMediaFile.getText().isEmpty()){
-      fc.setInitialFileName(this.txfMediaFile.getText());
+      fc.setInitialFileName(FilenameUtils.getName(this.txfMediaFile.getText()));
       fc.setInitialDirectory(Paths.get(this.txfMediaFile.getText()).getParent().toFile());
     } else {
       fc.setInitialDirectory(this.annotationFile.getFile().getParentFile());
     }
     fc.setTitle("Select media file");
+    fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4 files (*.mp4)", "*.mp4"));
+    fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("All files (*)", "*"));
+
     File response = fc.showOpenDialog(this.view.root.stage);
     if(Objects.nonNull(response)){
       this.txfMediaFile.setText(response.getAbsolutePath());
@@ -72,11 +76,12 @@ public class CreateEAF extends ComponentController {
   public void selectOutputFile() {
     FileChooser fc = new FileChooser();
     if(!this.txfOutputFile.getText().isEmpty()){
-      fc.setInitialFileName(this.txfOutputFile.getText());
+      fc.setInitialFileName(FilenameUtils.getName(this.txfOutputFile.getText()));
       fc.setInitialDirectory(Paths.get(this.txfOutputFile.getText()).getParent().toFile());
     } else {
       fc.setInitialDirectory(this.annotationFile.getFile().getParentFile());
     }
+    fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("EAF-File (*.eaf)", "*.eaf"));
     fc.setTitle("Select output file");
     File response = fc.showSaveDialog(this.view.root.stage);
     if(Objects.nonNull(response)){
@@ -86,14 +91,6 @@ public class CreateEAF extends ComponentController {
 
   public void setAnnotationFile(AnnotationFile annotations) {
     this.annotationFile = annotations;
-    String baseFileName = annotationFile.getFile().getName().replaceFirst("\\.[^.]+$", ".");
-    this.txfOutputFile.setText(
-        Paths.get(annotations.getFile().getParentFile().getAbsolutePath(),
-            baseFileName + "eaf").toString());
-    this.txfMediaFile.setText(
-        Paths.get(annotations.getFile().getParentFile().getAbsolutePath(),
-            baseFileName + "mp4").toString());
-
   }
 
 }
