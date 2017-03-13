@@ -6,7 +6,7 @@
 
     <groupId>de.luk.ml.annotation</groupId>
     <artifactId>LiveAnnotation</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <properties>
         <main.class>de.luk.ml.annotation.LiveAnnotation</main.class>
