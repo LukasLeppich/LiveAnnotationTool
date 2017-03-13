@@ -1,7 +1,9 @@
-# 1.2 (...)
+# 1.2 (13.03.2017)
+* **Feature:** Create EAF-file for ELAN
+* **Workflow** Use any key to trigger the annotation (except ESC, numbers or Enter)
+* **Gui:** Add more annotation stats
 * **Gui:** Set initial directory of the output file selection dialog
 * **Gui:** Change the button text from "Start" to "Next"
-* **Workflow** Use any key to trigger the annotation (except ESC, numbers or Enter)
 * **Bug:** Replace ',' with '.' in decimal numbers
 
 # 1.1 (09.02.2017)

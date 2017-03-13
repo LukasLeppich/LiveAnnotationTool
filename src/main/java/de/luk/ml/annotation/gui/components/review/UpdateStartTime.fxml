@@ -8,25 +8,26 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <GridPane hgap="6.0" vgap="3.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="140.0" prefWidth="160.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="RIGHT" hgrow="NEVER" minWidth="140.0" prefWidth="220.0" />
+          <ColumnConstraints hgrow="ALWAYS" minWidth="50.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Annotation started:" />
-            <Label text="Recording started:" GridPane.rowIndex="1" />
-            <Button fx:id="btnUpdateTimes" mnemonicParsing="false" onAction="#updateTimes" text="Update times" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <TextField fx:id="txfAnnotationStarted" editable="false" minWidth="100.0" GridPane.columnIndex="1" />
-            <TextField fx:id="txfRecordingStarted" minWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Annotation started:" GridPane.rowIndex="1" />
+            <Label text="Recording started:" GridPane.rowIndex="2" />
+            <Button fx:id="btnUpdateTimes" mnemonicParsing="false" onAction="#updateTimes" text="Update times" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <TextField fx:id="txfAnnotationStarted" editable="false" minWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txfRecordingStarted" minWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Update times:" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
    </center>

@@ -19,8 +19,8 @@ After recording you can use the review annotation view to update the annotation 
 5. Start Simulator X recording
 6. Press ENTER to start annotation recording
 7. Switch annotation with number keys
-8. Press and hold mouse key to start an annotation
-9. Release mouse key to end the annotation
+8. Press and hold the mouse key or any keyboard key to start an annotation
+9. Release the pressed key to end the annotation
 10. Press ESC to stop recording
 
 ### Review annotation file
@@ -30,5 +30,13 @@ After recording you can use the review annotation view to update the annotation 
 3. Press "Load" to load the annotation file
 4. Enter the timestamp of the recording start into the "Recording started" field
 5. Press "Update times"
+
+### Create EAF-File for ELAN
+
+1. Select "Review annotation" on the main view
+2. Select the annotation File
+3. Select the video file of the recording
+4. Specify the EAF output filename
+5. Press "Create EAF-File"
 
  

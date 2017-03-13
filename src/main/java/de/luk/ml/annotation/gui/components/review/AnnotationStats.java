@@ -3,6 +3,7 @@ package de.luk.ml.annotation.gui.components.review;
 import de.luk.ml.annotation.annotations.Annotation;
 import de.luk.ml.annotation.gui.components.common.ComponentController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
@@ -27,14 +28,23 @@ public class AnnotationStats extends ComponentController {
 
   @PostConstruct
   public void init() {
-    this.items = IntStream.range(0, 2)
+    this.items = IntStream.range(0, 3)
         .mapToObj(i -> this.itemInstaces.get())
         .collect(Collectors.toList());
+    vbxContent.getChildren().add(new Label("Annotation stats:"));
     vbxContent.getChildren().addAll(this.items);
   }
 
   public void setAnnotations(List<Annotation> annotations) {
-    this.items.get(0).setStat("Annotations: ", Integer.toString(annotations.size()));
+    this.items.get(0).setStat("Loaded annotations: ", Integer.toString(annotations.size()));
+    this.items.get(1).setStat("Annotated time period: ", Long.toString(
+        annotations.stream().mapToLong(annotation->annotation.getEnd() - annotation.getStart()).sum()) + " ms");
+    this.items.get(2).setStat("Annotations: ", annotations.stream().map(Annotation::getName).distinct().map(name->name + " (" +
+        annotations.stream()
+            .filter(annotation->annotation.getName().equals(name))
+            .mapToLong(annotation->annotation.getEnd() - annotation.getStart()).sum()
+        + " ms)"
+    ).collect(Collectors.joining(", ")));
   }
 
 }

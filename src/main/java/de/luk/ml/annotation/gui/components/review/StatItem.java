@@ -3,7 +3,7 @@ package de.luk.ml.annotation.gui.components.review;
 import de.luk.ml.annotation.gui.components.common.ComponentController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/8/17.
@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 public class StatItem extends ComponentController {
 
   @FXML
-  private TextField txfCount;
+  private Label lblCount;
 
   @FXML
   private Label lblLabel;
@@ -19,7 +19,11 @@ public class StatItem extends ComponentController {
 
   public StatItem setStat(String name, String value) {
     this.lblLabel.setText(name);
-    this.txfCount.setText(value);
+    this.lblLabel.setWrapText(true);
+
+    this.lblCount.setText(value);
+    this.lblCount.setWrapText(true);
+    this.lblCount.setTextAlignment(TextAlignment.JUSTIFY);
     return this;
   }
 
