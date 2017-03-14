@@ -1,4 +1,5 @@
-#Live Annotation Tool
+# Live Annotation Tool (Version 1.3)
+
 <sub>*(For the machine learning course at the University of Würzburg)*</sub>
 
 **This tool is still under development, please make copies of your annotation files before use!**
@@ -11,6 +12,7 @@ After recording you can use the review annotation view to update the annotation 
 
 
 ## Workflows
+
 ### Recording
 1. Select "Create annotations" on the main view
 2. Select output file
