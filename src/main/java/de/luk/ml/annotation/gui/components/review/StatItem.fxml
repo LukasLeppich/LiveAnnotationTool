@@ -11,7 +11,7 @@
                 <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="50.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="40.0" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label fx:id="lblLabel"/>

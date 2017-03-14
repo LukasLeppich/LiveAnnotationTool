@@ -39,4 +39,13 @@ After recording you can use the review annotation view to update the annotation 
 4. Specify the EAF output filename
 5. Press "Create EAF-File"
 
- 
+
+### Rename recording files
+
+Select reference file and rename selected files to match filename while keeping extensions.
+
+1. Select "Review annotation" on the main view
+2. Select annotation file
+3. Select "Name reference" file and click "Load files"
+4. Select files to rename
+5. Press "Rename selected Files"
