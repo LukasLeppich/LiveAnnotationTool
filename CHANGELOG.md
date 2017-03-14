@@ -1,3 +1,8 @@
+# 1.3 (14.03.2017)
+* **Feature:** Rename recording files while keeping extensions
+* **Gui:** Wrap review view into scroll pane
+* **Gui:** Preset EAF-File name
+
 # 1.2 (13.03.2017)
 * **Feature:** Create EAF-file for ELAN
 * **Workflow** Use any key to trigger the annotation (except ESC, numbers or Enter)
