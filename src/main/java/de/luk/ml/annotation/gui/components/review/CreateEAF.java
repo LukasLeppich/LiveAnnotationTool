@@ -56,7 +56,7 @@ public class CreateEAF extends ComponentController {
   @FXML
   public void selectMediaFile() {
     FileChooser fc = new FileChooser();
-    if(!this.txfMediaFile.getText().isEmpty()){
+    if (!this.txfMediaFile.getText().isEmpty()) {
       fc.setInitialFileName(FilenameUtils.getName(this.txfMediaFile.getText()));
       fc.setInitialDirectory(Paths.get(this.txfMediaFile.getText()).getParent().toFile());
     } else {
@@ -67,7 +67,7 @@ public class CreateEAF extends ComponentController {
     fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("All files (*)", "*"));
 
     File response = fc.showOpenDialog(this.view.root.stage);
-    if(Objects.nonNull(response)){
+    if (Objects.nonNull(response)) {
       this.txfMediaFile.setText(response.getAbsolutePath());
     }
   }
@@ -75,7 +75,7 @@ public class CreateEAF extends ComponentController {
   @FXML
   public void selectOutputFile() {
     FileChooser fc = new FileChooser();
-    if(!this.txfOutputFile.getText().isEmpty()){
+    if (!this.txfOutputFile.getText().isEmpty()) {
       fc.setInitialFileName(FilenameUtils.getName(this.txfOutputFile.getText()));
       fc.setInitialDirectory(Paths.get(this.txfOutputFile.getText()).getParent().toFile());
     } else {
@@ -84,13 +84,15 @@ public class CreateEAF extends ComponentController {
     fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("EAF-File (*.eaf)", "*.eaf"));
     fc.setTitle("Select output file");
     File response = fc.showSaveDialog(this.view.root.stage);
-    if(Objects.nonNull(response)){
+    if (Objects.nonNull(response)) {
       this.txfOutputFile.setText(response.getAbsolutePath());
     }
   }
 
   public void setAnnotationFile(AnnotationFile annotations) {
     this.annotationFile = annotations;
+    String baseName = FilenameUtils.getBaseName(this.annotationFile.getFile().getName());
+    this.txfOutputFile.setText(new File(this.annotationFile.getFile().getParentFile().getAbsolutePath(), baseName + ".eaf").getAbsolutePath());
   }
 
 }

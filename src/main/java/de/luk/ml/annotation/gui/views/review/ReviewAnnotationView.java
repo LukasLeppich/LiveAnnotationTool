@@ -5,6 +5,7 @@ import de.luk.ml.annotation.annotations.AnnotationFileLoader;
 import de.luk.ml.annotation.gui.components.fileselection.SelectAnnotationFile;
 import de.luk.ml.annotation.gui.components.review.AnnotationStats;
 import de.luk.ml.annotation.gui.components.review.CreateEAF;
+import de.luk.ml.annotation.gui.components.review.RenameFiles;
 import de.luk.ml.annotation.gui.components.review.UpdateStartTime;
 import de.luk.ml.annotation.gui.views.common.ViewController;
 import javafx.event.ActionEvent;
@@ -43,12 +44,16 @@ public class ReviewAnnotationView extends ViewController {
   @Inject
   private CreateEAF createEAF;
 
+  @Inject
+  private RenameFiles renameFiles;
+
   @FXML
   private VBox vbxPanel;
 
   @PostConstruct
   private void init() {
     setTop();
+    this.selectAnnotationFile.setOnFileSelected(file -> loadAnnotationFile());
   }
 
   public void setFileAndLoad(File file) {
@@ -121,10 +126,12 @@ public class ReviewAnnotationView extends ViewController {
       this.vbxPanel.getChildren().add(this.stats);
       this.vbxPanel.getChildren().add(this.updateStartTime);
       this.vbxPanel.getChildren().add(this.createEAF);
+      this.vbxPanel.getChildren().add(this.renameFiles);
     }
     this.stats.setAnnotations(this.annotationFile.getAnnotations());
     this.updateStartTime.setAnnotationFile(this.annotationFile);
     this.createEAF.setAnnotationFile((this.annotationFile));
+    this.renameFiles.setAnnotationFile(this.annotationFile);
   }
 
   public String getTitle() {

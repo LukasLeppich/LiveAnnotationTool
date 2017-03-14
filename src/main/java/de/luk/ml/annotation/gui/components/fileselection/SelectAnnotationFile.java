@@ -3,24 +3,24 @@ package de.luk.ml.annotation.gui.components.fileselection;
 import de.luk.ml.annotation.gui.components.common.ComponentController;
 import de.luk.ml.annotation.gui.views.common.ViewController;
 import de.luk.ml.annotation.utils.AnnotationFileFilter;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/8/17.
  */
 public class SelectAnnotationFile extends ComponentController {
 
-  public SimpleStringProperty filePath = new SimpleStringProperty();
+  private Consumer<File> onFileSelected;
 
   @FXML
   private TextField txfFilePath;
@@ -42,12 +42,14 @@ public class SelectAnnotationFile extends ComponentController {
     File outputFile = fc.showOpenDialog(this.view.root.stage);
     if (outputFile != null) {
       txfFilePath.setText(outputFile.getAbsolutePath());
+      if (Objects.nonNull(onFileSelected)) {
+        onFileSelected.accept(outputFile);
+      }
     }
   }
 
   @PostConstruct
   public void init() {
-    this.filePath.bind(txfFilePath.textProperty());
   }
 
   public void setFilePath(File file) {
@@ -56,6 +58,11 @@ public class SelectAnnotationFile extends ComponentController {
 
   public String getFilePath() {
     return this.txfFilePath.getText();
+  }
+
+  public SelectAnnotationFile setOnFileSelected(Consumer<File> onFileSelected) {
+    this.onFileSelected = onFileSelected;
+    return this;
   }
 
   @Override
@@ -71,11 +78,6 @@ public class SelectAnnotationFile extends ComponentController {
             .ifPresent(file -> this.txfFilePath.setText(file.getAbsolutePath()));
       }
     }
-  }
-
-  @PreDestroy
-  public void destroy() {
-    this.filePath.unbind();
   }
 
 }

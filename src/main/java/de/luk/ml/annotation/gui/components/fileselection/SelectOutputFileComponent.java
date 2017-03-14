@@ -3,6 +3,7 @@ package de.luk.ml.annotation.gui.components.fileselection;
 import de.luk.ml.annotation.gui.components.common.ComponentController;
 import de.luk.ml.annotation.gui.views.common.ViewController;
 import de.luk.ml.annotation.utils.AnnotationFileFilter;
+import de.luk.ml.annotation.utils.AnnotationFileUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -14,7 +15,6 @@ import javax.annotation.PreDestroy;
 import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Lukas Leppich (lukas.leppich@gmail.com) on 2/7/17.
@@ -45,13 +45,13 @@ public class SelectOutputFileComponent extends ComponentController {
   }
 
   @FXML
-  private void refreshName(){
+  private void refreshName() {
     LocalDateTime currentTime = LocalDateTime.now();
-    String filename = currentTime.format(DateTimeFormatter.ofPattern("'entityRecording'-yyyy-MM-dd-HH-mm-ss'.csv'"));
+    String filename = AnnotationFileUtils.getCurrentFileName("csv");
     File newParent = this.view.root.workingDirectory;
-    if(!this.txfFilePath.getText().trim().isEmpty()){
+    if (!this.txfFilePath.getText().trim().isEmpty()) {
       File currentFile = new File(this.txfFilePath.getText());
-      if(currentFile.exists() || currentFile.getParentFile().exists()){
+      if (currentFile.exists() || currentFile.getParentFile().exists()) {
         newParent = currentFile.getParentFile();
       }
     }

@@ -15,7 +15,7 @@
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="60.0" />
             <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
-                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="99.0" minWidth="50.0" prefWidth="99.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
             <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
             </columnConstraints>
             <rowConstraints>
