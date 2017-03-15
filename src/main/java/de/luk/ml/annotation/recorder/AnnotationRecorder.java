@@ -49,11 +49,10 @@ public class AnnotationRecorder {
     double ended = (System.currentTimeMillis() - startTime) / 1000.0;
 
 
-    output.write(String.format(Locale.US, "\n%.3f;%.3f;\"", started, ended).replaceAll(",", ".") + annotation.getName() + "\"");
+    output.write(String.format(Locale.US, "\n%.3f;%.3f;\"", started, ended) + annotation.getName() + "\"");
     output.flush();
     this.currentActiveStart = 0;
     this.currentActive = null;
   }
-
 
 }

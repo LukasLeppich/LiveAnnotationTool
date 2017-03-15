@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -33,12 +34,13 @@ public class AnnotationFileLoader {
 
   public void saveAnnotationFile(AnnotationFile file) throws Exception {
     List<String> lines = file.getAnnotations().stream()
-        .map(annotation -> String.format("%.3f;%.3f;\"" + annotation.getName().replaceAll("\"", "") + "\"",
+        .map(annotation -> String.format(Locale.US, "%.3f;%.3f;\"" + annotation.getName().replaceAll("\"", "") + "\"",
             annotation.getStart() / 1000.0,
             annotation.getEnd() / 1000.0))
         .collect(Collectors.toList());
     lines.add(0, "\"#starttime\";\"#endtime\";\"all_tiers\"");
     FileUtils.writeLines(file.getFile(), Charsets.UTF_8.name(), lines, "\n");
+    logger.debug("Written " + lines.size() + " lines to [" + file.getFile().getName() + "]");
     FileUtils.writeStringToFile(new File(file.getFile().getParentFile(), file.getFile().getName() + ".started"), Long.toString(file.getStart()), "utf-8", false);
   }
 
