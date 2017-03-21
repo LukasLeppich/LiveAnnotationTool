@@ -1,3 +1,8 @@
+# 1.4 (21.03.2017)
+* **Bug:** Fix bug with hanging event filters
+* **Feature:** Add + and - buttons to switch annotations
+* **Gui:** Change order of EAF creation and file rename in review view
+
 # 1.3 (14.03.2017)
 * **Feature:** Rename recording files while keeping extensions
 * **Gui:** Wrap review view into scroll pane

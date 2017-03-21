@@ -28,10 +28,10 @@ public abstract class ViewController extends ComponentController {
   public void setRootView(RootView root) {
     this.root = root;
     Arrays.stream(getClass().getDeclaredFields())
-        .forEach(this::hasSetViewMehtod);
+        .forEach(this::hasSetViewMethod);
   }
 
-  private void hasSetViewMehtod(Field field) {
+  private void hasSetViewMethod(Field field) {
     try {
       Method setView = field.getType().getMethod("setView", ViewController.class);
       field.setAccessible(true);
@@ -41,9 +41,31 @@ public abstract class ViewController extends ComponentController {
   }
 
   public void detach() {
+    Arrays.stream(getClass().getDeclaredFields())
+        .forEach(this::hasDetachMethod);
+  }
+
+  private void hasDetachMethod(Field field) {
+    try {
+      Method detach = field.getType().getMethod("detach");
+      field.setAccessible(true);
+      detach.invoke(field.get(this));
+    } catch (Throwable e) {
+    }
   }
 
   public void attach() {
+    Arrays.stream(getClass().getDeclaredFields())
+        .forEach(this::hasAttachMethod);
+  }
+
+  private void hasAttachMethod(Field field) {
+    try {
+      Method attach = field.getType().getMethod("attach");
+      field.setAccessible(true);
+      attach.invoke(field.get(this));
+    } catch (Throwable e) {
+    }
   }
 
   public void setLoading(boolean loading) {

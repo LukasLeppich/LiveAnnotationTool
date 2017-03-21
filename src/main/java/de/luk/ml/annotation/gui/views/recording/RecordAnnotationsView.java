@@ -28,8 +28,4 @@ public class RecordAnnotationsView extends ViewController {
     return "Recording";
   }
 
-  @Override
-  public void detach() {
-    this.triggerAnnotationComponent.detach();
-  }
 }

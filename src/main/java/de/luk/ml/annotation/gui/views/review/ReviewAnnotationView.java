@@ -125,8 +125,8 @@ public class ReviewAnnotationView extends ViewController {
     if (this.vbxPanel.getChildren().isEmpty()) {
       this.vbxPanel.getChildren().add(this.stats);
       this.vbxPanel.getChildren().add(this.updateStartTime);
-      this.vbxPanel.getChildren().add(this.createEAF);
       this.vbxPanel.getChildren().add(this.renameFiles);
+      this.vbxPanel.getChildren().add(this.createEAF);
     }
     this.stats.setAnnotations(this.annotationFile.getAnnotations());
     this.updateStartTime.setAnnotationFile(this.annotationFile);
