@@ -1,4 +1,4 @@
-# Live Annotation Tool (Version 1.3)
+# Live Annotation Tool (Version 1.4)
 
 <sub>*(For the machine learning course at the University of Würzburg)*</sub>
 
